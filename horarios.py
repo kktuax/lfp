@@ -4,9 +4,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-def tagWords(tag):
-    return(re.sub(r'\W+', ' ', tag.text).strip())
-
 def horarios():
     jornadas = dict()
     url = "http://www.lfp.es/lfpimprimir.aspx?controltype=hor"
@@ -16,7 +13,7 @@ def horarios():
         jornada = None
         for row in table.findAll('tr'):
             cols = row.findAll('td')
-            rowWords = tagWords(row)
+            rowWords = re.sub(r'\W+', ' ', row.text).strip()
             titleMatch = re.match(".+Jornada \d+", rowWords)
             if titleMatch and (len(cols) == 1):
                 jornada = rowWords
